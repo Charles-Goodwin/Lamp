@@ -23,18 +23,18 @@ uint16_t XY(uint8_t x, uint8_t y) {
   
   int s;
  
-  if (x >= NUM_LEDS_COLUMN) return -1;;
-  if (y >= NUM_LEDS_ROW)  return -1;
+  if (x >= NUM_COLS) return -1;
+  if (y >= NUM_ROWS)  return -1;
   s =  x + (y * 5);
  
   return s;
 }
 
 uint16_t XYwrap(uint8_t x, uint8_t y) {
-  x = x % NUM_LEDS_COLUMN;
-  y = y % NUM_LEDS_ROW;
-  if (x<0) x+= NUM_LEDS_COLUMN;
-  if (y<0) y+= NUM_LEDS_ROW;
+  x = x % NUM_COLS;
+  y = y % NUM_ROWS;
+  if (x<0) x+= NUM_COLS;
+  if (y<0) y+= NUM_ROWS;
   
   return XY(x,y);
 }

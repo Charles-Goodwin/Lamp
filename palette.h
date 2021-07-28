@@ -1,300 +1,6 @@
+
 #ifndef PALETTE_H
 #define PALETTE_H
-
-
-
-
-
-
-
-DEFINE_GRADIENT_PALETTE( digitalRain_gp ) {
-  0,    90,  100,  100,
-  8,    20,  150,  30,
-  16,   40,  120,  50,
-  24,   90, 150,   100,
-  32,   10,  100,  20,
-  40,   40,  100,  50,
-  48,   90, 150,   100,
-  56,   60,  120,  70,  
-  64,   10,  150,  20, 
-  80,   0,   150,  0,
-  255,  0,   150,  0};
-
-DEFINE_GRADIENT_PALETTE( digitalRainOrange_gp ) {
-  0,    255, 203, 135,
-  8,    201, 153, 89,
-  16,   237, 169, 78,
-  24,   237, 169, 78,
-  32,   184, 115, 24,
-  40,   184, 115, 24,
-  48,   120, 74,  13,
-  56,   252, 144, 0,  
-  64,   191, 111, 4, 
-  80,   255, 145, 0,
-  255,  255, 145, 0};  
-
-  
-DEFINE_GRADIENT_PALETTE( Cloud_gp ) {
-  0,    100, 130, 130,
-  64,   90,  100, 100,
-  128,  40,  50,  50,
-  160,  100, 140, 140,
-  192,  30,  40,  40,
-  255,  100, 130, 130};
-
-DEFINE_GRADIENT_PALETTE( HeavyFreezingRain_gp ) {
-  0,    0,   0,   0, 
-  15,   0,   20,  120,
-  23,   0,   100, 100,
-  31,   0,   0,   100,
-  47,   0,   25,  100,
-  63,   50,  100, 100,
-  71,   0,   50,  150,
-  79,   0,   0,   0,
-  195,  0,   10,  100,
-  111,  0,   0,   0,
-  127,  0,   0,   100,
-  143,  0,   50,  100,
-  159,  50,  100, 100,
-  167,  0,   0,   0, 
-  175,  0,   20,  100,
-  191,  0,   50,  120,
-  207,  0,   0,   0,
-  223,  0,   0,   100,
-  231,  0,   0,   0,
-  239,  0,   50,  100,
-  255,  0,   0,   0};
-
-  DEFINE_GRADIENT_PALETTE( FreezingRain_gp ) {
-  0,    50,  100, 100, 
-  15,   0,   0,   100,
-  23,   0,   0,   0,
-  31,   0,   0,   0,
-  47,   0,   50,  100,
-  63,   50,  100, 100,
-  71,   0,   0,   0,
-  79,   0,   60,  100,
-  195,  0,   10,  100,
-  111,  0,   0,   0,
-  143,  0,   0,   0,
-  159,  50,  100, 100,
-  167,  0,   0,   0, 
-  175,  0,   0,   0,
-  191,  0,   0,   100,
-  207,  0,   100, 100,
-  223,  0,   0,   0,
-  231,  0,   50,  100,
-  239,  0,   0,   0,
-  255,  0,   0,   0};
-
-DEFINE_GRADIENT_PALETTE( LightFreezingRain_gp ) {
-  0,    0,   0,   0, 
-  15,   0,   0,   0,
-  23,   0,   0,   0,
-  31,   0,   0,   0,
-  47,   0,   0,   100,
-  63,   60,  100, 100,
-  71,   0,   0,   0,
-  79,   0,   0,   0,
-  195,  0,   0,   0,
-  111,  0,   0,   0,
-  143,  0,   50,  100,
-  159,  60,  100, 100,
-  167,  0,   0,   0, 
-  175,  0,   0,   0,
-  191,  0,   0,   0,
-  207,  0,   0,   100,
-  223,  0,   0,   0,
-  231,  0,   0,   0,
-  239,  0,   0,   0,
-  255,  0,   0,   0};
-
-DEFINE_GRADIENT_PALETTE( HeavyRain_gp ) {
-  0,    0,   0,   0, 
-  15,   0,   0,   100,
-  23,   0,   100, 100,
-  31,   0,   0,   100,
-  47,   0,   25,  100,
-  63,   0,   0,   100,
-  71,   0,   50,  100,
-  79,   0,   0,   0,
-  195,  0,   10,  100,
-  111,  0,   0,   0,
-  127,  0,   0,   100,
-  143,  0,   50,  100,
-  159,  0,   0,   100,
-  167,  0,   0,   0, 
-  175,  0,   20,  100,
-  191,  0,   0,   0,
-  207,  0,   50,  100,
-  223,  0,   0,   100,
-  231,  0,   0,   0,
-  239,  0,   50,  100,
-  255,  0,   0,   0};
-
-DEFINE_GRADIENT_PALETTE( Rain_gp ) {
-  0,    0,   20,  100, 
-  15,   0,   0,   100,
-  23,   0,   0,   0,
-  31,   0,   0,   0,
-  47,   0,   50,  100,
-  63,   0,   0,   100,
-  71,   0,   0,   0,
-  79,   0,   0,   0,
-  195,  0,   10,  100,
-  111,  0,   0,   0,
-  143,  0,   0,   0,
-  159,  0,   0,   100,
-  167,  0,   0,   0, 
-  175,  0,   0,   0,
-  191,  0,   0,   100,
-  207,  0,   100, 100,
-  223,  0,   0,   0,
-  231,  0,   20,  100,
-  239,  0,   0,   0,
-  255,  0,   0,   0};
-
-DEFINE_GRADIENT_PALETTE( LightRain_gp ) {
-  0,    0,   0,   0, 
-  15,   0,   0,   0,
-  23,   0,   0,   0,
-  31,   0,   0,   0,
-  47,   0,   0,   100,
-  63,   0,   20,  100,
-  71,   0,   0,   0,
-  79,   0,   0,   0,
-  195,  0,   0,   0,
-  111,  0,   0,   0,
-  143,  0,   50,  100,
-  159,  0,   0,   0,
-  167,  0,   0,   0, 
-  175,  0,   0,   0,
-  191,  0,   0,   0,
-  207,  0,   40,  100,
-  223,  0,   0,   0,
-  231,  0,   0,   0,
-  239,  0,   0,   0,
-  255,  0,   0,   0};
-
-  DEFINE_GRADIENT_PALETTE( HeavyHail_gp ) {
-  0,    0,   0,   0, 
-  15,   0,   0,   0,
-  23,   70,  100, 100,
-  31,   0,   0,   0,
-  47,   70,  100, 100,
-  55,   0,   0,   0,
-  71,   0,   0,   0,
-  79,   0,   0,   0,
-  195,  70,  100, 100,
-  103,  0,   0,   0,
-  127,  70,  100, 100,
-  135,  0,   0,   0,
-  159,  0,   0,   0,
-  167,  0,   0,   0, 
-  175,  70,  100, 100,
-  183,  0,   0,   0,
-  207,  0,   0,   0,
-  223,  70,  100, 100,
-  231,  0,   0,   0,
-  239,  0,   0,   0,
-  255,  70,  100, 100};
-
-DEFINE_GRADIENT_PALETTE( Hail_gp ) {
-  0,    0,   0,   0, 
-  15,   0,   0,   0,
-  23,   0,   0,   0,
-  31,   0,   0,   0,
-  47,   70,  100, 100,
-  55,   0,   0,   0,
-  71,   0,   0,   0,
-  79,   0,   0,   0,
-  195,  70,  100, 100,
-  103,  0,   0,   0,
-  127,  70,  100, 100,
-  135,  0,   0,   0,
-  159,  0,   0,   0,
-  167,  0,   0,   0, 
-  175,  0,   0,   0,
-  183,  0,   0,   0,
-  207,  0,   0,   0,
-  223,  70,  100, 100,
-  231,  0,   0,   0,
-  239,  0,   0,   0,
-  255,  0,   0,   0};
-
-DEFINE_GRADIENT_PALETTE( LightHail_gp ) {
-  0,    0,   0,   0, 
-  15,   0,   0,   0,
-  23,   0,   0,   0,
-  31,   0,   0,   0,
-  47,   70,  100, 100,
-  63,   0,   0,   0,
-  71,   0,   0,   0,
-  79,   0,   0,   0,
-  195,  0,   0,   0,
-  111,  0,   0,   0,
-  143,  0,   0,   0,
-  159,  0,   0,   0,
-  167,  70,  100, 100, 
-  175,  0,   0,   0,
-  191,  0,   0,   0,
-  207,  70,  100, 100,
-  215,  0,   0,   0,
-  231,  0,   0,   0,
-  239,  0,   0,   0,
-  255,  0,   0,   0};
-
-
-DEFINE_GRADIENT_PALETTE( Snow_gp ) {
-  0,    0,    0,    0, 
-//  15,   0,    0,    0,
-//  31,   0,    0,    0,
-  47,   0,    0,    0,
-  63,    50,   70,    70,
-//  79,   0,    0,    0,
-//  95,   0,    0,    0,
-  111,  130,  150,  150,
-  127,  130,  150,  150,
-  143,  130,  150,  150,
-//  159,  0,    0,    0,
-//  175,  0,    0,    0,
-  191,  50,    70,    70,
-  207,  0,    0,    0,
-//  223,  0,    0,    0,
-//  239,  0,    0,    0,
-  255,  0,    0,    0};
-
-DEFINE_GRADIENT_PALETTE( Sunshine_gp ) {
-  0,    90,    50,     0, 
-  16,   150,    50,     0, 
-  32,   60,    60,     0,   
-  48,   100,   50,     0,
-  64,   80,    80,     0,
-  80,   150,   150,    0,
-  96,   100,   50,     0,
-  112,  40,    40,     0, 
-  128,  100,   50,     0,
-  144,  70,    70,     0,
-  160,  100,   100,    0,
-  176,  150,   150,    0,
-  192,  100,   60,     0,
-  208,  50,    50,     0,
-  224,  150,   100,    0,
-  240,  100,   100,    0,
-  255,  90,    50,     0};
-
-  
-DEFINE_GRADIENT_PALETTE( RGB_Test_gp ) {
-  0,    255,  0,    0,
-  75,   0,    255,  0,
-  150,  0,    0,    255,
-  255,  0,    0,    255
-  } ;   
-
-
-  
-
-
 
 DEFINE_GRADIENT_PALETTE( Thermal_gp ) {
   0,  85, 85, 85,  // white
@@ -306,7 +12,6 @@ DEFINE_GRADIENT_PALETTE( Thermal_gp ) {
   207, 255, 0, 0,     // red
   255, 255, 0, 0      // red    
 };
-
 
 const TProgmemRGBPalette16 Text_p FL_PROGMEM =
 { 0x34ebde, 0x34ebde, 0x34ebde, 0x34ebde, //red, orange, yellow, green
@@ -450,16 +155,115 @@ CRGBPalette256 DigitalRain_pal() {
 // These three custom blue-green color palettes were inspired by the colors found in
 // the waters off the southern coast of California, https://goo.gl/maps/QQgd97jjHesHZVxQ7
 //
-CRGBPalette16 pacifica_palette_1 = 
-    { 0x000507, 0x000409, 0x00030B, 0x00030D, 0x000210, 0x000212, 0x000114, 0x000117, 
-      0x000019, 0x00001C, 0x000026, 0x000031, 0x00003B, 0x000046, 0x14554B, 0x28AA50 };
-CRGBPalette16 pacifica_palette_2 = 
-    { 0x000507, 0x000409, 0x00030B, 0x00030D, 0x000210, 0x000212, 0x000114, 0x000117, 
-      0x000019, 0x00001C, 0x000026, 0x000031, 0x00003B, 0x000046, 0x0C5F52, 0x19BE5F };
-CRGBPalette16 pacifica_palette_3 = 
-    { 0x000208, 0x00030E, 0x000514, 0x00061A, 0x000820, 0x000927, 0x000B2D, 0x000C33, 
-      0x000E39, 0x001040, 0x001450, 0x001860, 0x001C70, 0x002080, 0x1040BF, 0x2060FF };
+//CRGBPalette16 pacifica_palette_1 = 
+//    { 0x000507, 0x000409, 0x00030B, 0x00030D, 0x000210, 0x000212, 0x000114, 0x000117, 
+//      0x000019, 0x00001C, 0x000026, 0x000031, 0x00003B, 0x000046, 0x14554B, 0x28AA50 };
+//CRGBPalette16 pacifica_palette_2 = 
+//    { 0x000507, 0x000409, 0x00030B, 0x00030D, 0x000210, 0x000212, 0x000114, 0x000117, 
+//      0x000019, 0x00001C, 0x000026, 0x000031, 0x00003B, 0x000046, 0x0C5F52, 0x19BE5F };
+//CRGBPalette16 pacifica_palette_3 = 
+//    { 0x000208, 0x00030E, 0x000514, 0x00061A, 0x000820, 0x000927, 0x000B2D, 0x000C33, 
+//      0x000E39, 0x001040, 0x001450, 0x001860, 0x001C70, 0x002080, 0x1040BF, 0x2060FF };
 
+// RGB palette definitions have been replaced by HSV palette definitions
+CRGBPalette256 buildPalette(CRGB col[16]) {
+  CRGBPalette256 palette;
+  uint8_t pal[] = {0,  col[0].r, col[0].g, col[0].b ,
+                  16,  col[1].r, col[1].g, col[1].b ,
+                  32,  col[2].r, col[2].g, col[2].b ,
+                  48,  col[3].r, col[3].g, col[3].b ,
+                  64,  col[4].r, col[4].g, col[4].b ,
+                  80,  col[5].r, col[5].g, col[5].b ,
+                  96,  col[6].r, col[6].g, col[6].b ,
+                  112, col[7].r, col[7].g, col[7].b ,
+                  128, col[8].r, col[8].g, col[8].b ,
+                  144, col[9].r, col[9].g, col[9].b ,
+                  160, col[10].r, col[10].g, col[10].b ,
+                  176, col[11].r, col[11].g, col[11].b ,
+                  192, col[12].r, col[12].g, col[12].b ,
+                  208, col[13].r, col[13].g, col[13].b ,
+                  224, col[14].r, col[14].g, col[14].b ,
+                  240, col[15].r, col[15].g, col[15].b ,
+                  255, col[0].r, col[0].g, col[0].b 
+  };
+  palette.loadDynamicGradientPalette(pal) ;
+  return palette;
+}
+
+CRGBPalette256 pacifica_palette_1;
+CRGBPalette256 pacifica_palette_2;
+CRGBPalette256 pacifica_palette_3;
+void setupPalettes(){
+    
+  CRGB col1[] = {
+    CHSV(141 + g_hueShift,    255,    55),
+    CHSV(146 + g_hueShift,    255,    57),
+    CHSV(150 + g_hueShift,    255,    59), 
+    CHSV(152 + g_hueShift,    255,    64),
+    
+    CHSV(155 + g_hueShift,    255,    67),
+    CHSV(156 + g_hueShift,    255,    71),
+    CHSV(159 + g_hueShift,    255,    73), 
+    CHSV(159 + g_hueShift,    255,    78),
+  
+    CHSV(161 + g_hueShift,    255,    80),
+    CHSV(161 + g_hueShift,    255,    84),
+    CHSV(161 + g_hueShift,    255,    98), 
+    CHSV(161 + g_hueShift,    255,   112),
+  
+    CHSV(161 + g_hueShift,    255,   122),
+    CHSV(161 + g_hueShift,    255,   133),
+    CHSV(134 + g_hueShift,    184,   218), 
+    CHSV(122 + g_hueShift,    154,   255)
+    };
+  pacifica_palette_1 = buildPalette(col1);
+  
+  CRGB col2[] = {
+    CHSV(141 + g_hueShift,    255,    55),
+    CHSV(146 + g_hueShift,    255,    57),
+    CHSV(150 + g_hueShift,    255,    59), 
+    CHSV(152 + g_hueShift,    255,    64),
+    
+    CHSV(155 + g_hueShift,    255,    67),
+    CHSV(156 + g_hueShift,    255,    71),
+    CHSV(159 + g_hueShift,    255,    73), 
+    CHSV(159 + g_hueShift,    255,    78),
+  
+    CHSV(161 + g_hueShift,    255,    80),
+    CHSV(161 + g_hueShift,    255,    84),
+    CHSV(161 + g_hueShift,    255,    98), 
+    CHSV(161 + g_hueShift,    255,   112),
+  
+    CHSV(161 + g_hueShift,    255,   122),
+    CHSV(161 + g_hueShift,    255,   133),
+    CHSV(134 + g_hueShift,    200,   230),
+    CHSV(130 + g_hueShift,    255,   255)
+    };
+  pacifica_palette_2 = buildPalette(col2);
+  
+  CRGB col3[] = { 
+    CHSV(151 + g_hueShift,    255,    50),
+    CHSV(152 + g_hueShift,    255,    65),
+    CHSV(150 + g_hueShift,    255,    59), 
+    CHSV(152 + g_hueShift,    255,    90),
+    
+    CHSV(151 + g_hueShift,    255,   101),
+    CHSV(152 + g_hueShift,    255,   110),
+    CHSV(151 + g_hueShift,    255,   119), 
+    CHSV(152 + g_hueShift,    255,   126),
+  
+    CHSV(151 + g_hueShift,    255,   134),
+    CHSV(151 + g_hueShift,    255,   143),
+    CHSV(151 + g_hueShift,    255,   160), 
+    CHSV(151 + g_hueShift,    255,   175),
+  
+    CHSV(151 + g_hueShift,    255,   189),
+    CHSV(151 + g_hueShift,    255,   202),
+    CHSV(150 + g_hueShift,    185,   255), 
+    CHSV(155 + g_hueShift,    140,   255),
+  };
+  pacifica_palette_3 = buildPalette(col3);
+};
       
 // red white and blue shades to fly the Union Jack
 // Shade numbers run from dark to light for the colours
@@ -548,7 +352,30 @@ CRGBPalette256 Solid_pal() {
   return palette; 
 }
 
-
+// Colors and palettes for VU FFT
+DEFINE_GRADIENT_PALETTE( purple_gp ) {
+  0,   0, 212, 255,   //blue
+255, 179,   0, 255 }; //purple
+DEFINE_GRADIENT_PALETTE( outrun_gp ) {
+  0, 141,   0, 100,   //purple
+127, 255, 192,   0,   //yellow
+255,   0,   5, 255 };  //blue
+DEFINE_GRADIENT_PALETTE( greenblue_gp ) {
+  0,   0, 255,  60,   //green
+ 64,   0, 236, 255,   //cyan
+128,   0,   5, 255,   //blue
+192,   0, 236, 255,   //cyan
+255,   0, 255,  60 }; //green
+DEFINE_GRADIENT_PALETTE( redyellow_gp ) {
+  0,   200, 200,  200,   //white
+ 64,   255, 218,    0,   //yellow
+128,   231,   0,    0,   //red
+192,   255, 218,    0,   //yellow
+255,   200, 200,  200 }; //white
+CRGBPalette256 purplePal = purple_gp;
+CRGBPalette256 outrunPal = outrun_gp;
+CRGBPalette256 greenbluePal = greenblue_gp;
+CRGBPalette256 heatPal = redyellow_gp;
 
 //Lets sort out a palette list
 //First lets define its structure
@@ -559,10 +386,14 @@ typedef struct {
 } PaletteAndName;
 
 const PaletteAndName palettes[] = {
+  {Blank_pal,                   "Bubbles"},
+  {Blank_pal,                   "VU Rainbow   Bars"},
+  {Blank_pal,                   "VU Middle Bars"},
+  {LavaLampPurple_pal,          "Lava Lamp - Pink/Purple"},
+  {Blank_pal,                   "Warm white"},
   {Blank_pal,                   "Pacifica"},
   {Thermal_pal,                 "Thermal spectrum"},
   {DigitalRain_pal,             "Digital Rain - Green"},
-  {LavaLampPurple_pal,          "Lava Lamp - Pink/Purple"},
   {Blank_pal,                   "Sound Reactive"},
   {Solid_pal,                   "Solid colour (Pink)"},
 };  

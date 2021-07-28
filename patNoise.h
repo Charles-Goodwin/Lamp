@@ -2,8 +2,8 @@
 #include "palette.h"
 #include "xy.h"
 
-const uint8_t kMatrixWidth  = NUM_LEDS_COLUMN;
-const uint8_t kMatrixHeight = NUM_LEDS_ROW;
+const uint8_t kMatrixWidth  = NUM_COLS;
+const uint8_t kMatrixHeight = NUM_ROWS;
 
 // This example combines two features of FastLED to produce a remarkable range of
 // effects from a relatively small amount of code.  This example combines FastLED's 
@@ -73,8 +73,8 @@ uint8_t       colorLoop = 1;
 void ChangePaletteAndSettingsPeriodically(){
   //currentPalette = LavaLampPurple_pal();
   currentPalette = palettes[paletteIndex].palette();
-  speed = 5; 
-  scale = 20; 
+  speed = 1; 
+  scale = 50; 
   colorLoop = 1; 
 }
 
@@ -88,7 +88,7 @@ void mapNoiseToLEDsUsingPalette()
         // We use the value at the (i,j) coordinate in the noise
         // array for our brightness, and the flipped value from (j,i)
         // for our pixel's index into the color palette.
-  
+        
         uint8_t index = noise[j][i];
         uint8_t bri =   noise[i][j];
   
@@ -104,9 +104,9 @@ void mapNoiseToLEDsUsingPalette()
         } else {
           bri = dim8_raw( bri * 2);
         }
-  
+
         CRGB color = ColorFromPalette( currentPalette, index, g_brightness);
-        leds[XY(i,j)] = color;
+        leds[XYwrap(i,j)] = color;
       }
     
   }
@@ -123,12 +123,12 @@ void fillnoise8() {
   if( speed < 50) {
     dataSmoothing = 200 - (speed * 4);
   }
-  
+
   for(int i = 0; i < MAX_DIMENSION; i++) {
     int ioffset = scale * i;
     for(int j = 0; j < MAX_DIMENSION; j++) {
       int joffset = scale * j;
-      
+
       uint8_t data = inoise8(x + ioffset,y + joffset,z);
 
       // The range of the inoise8 function is roughly 16-238.
@@ -136,13 +136,13 @@ void fillnoise8() {
       // You can comment them out if you want the raw noise data.
       data = qsub8(data,16);
       data = qadd8(data,scale8(data,39));
-
+  
       if( dataSmoothing ) {
         uint8_t olddata = noise[i][j];
         uint8_t newdata = scale8( olddata, dataSmoothing) + scale8( data, 256 - dataSmoothing);
         data = newdata;
       }
-      
+ 
       noise[i][j] = data;
     }
   }
@@ -162,13 +162,13 @@ void displayNoise (){
     y = random16();
     z = random16();
   }
-
+  Serial.println("stage f");
   // Periodically choose a new palette, speed, and scale
   ChangePaletteAndSettingsPeriodically();
   
   // generate noise data
   fillnoise8();
-
+  Serial.println("stage g");
   // convert the noise data to colors in the LED array
   // using the current palette
   mapNoiseToLEDsUsingPalette();

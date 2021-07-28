@@ -1,8 +1,11 @@
 #include "define.h"
 #include "palette.h"
 #include "patNoise.h"
+#include "Commet.h"
 #include "xy.h"
 #include "FastLED_RGBW.h"
+#include "VU_FFT.h"
+
 
 // My first stab at emulating the iconic raining code from the movie The Matrix
 // The Palette parameter allows you to use an alternative to the traditional green monitor effect
@@ -24,12 +27,13 @@ void digitalRainPalette(CRGBPalette256 palette) {
   switch (phase) {
     case 0:
     //Render all the neopixels Black
-    fill_solid(leds, NUM_LEDS, CRGB::Black);  
+    fill_solid_CRGBW(leds, NUM_LEDS, CRGBW::Black);  
     phase =1;
+    //Serial.println("stage a");
     break;
     
     case 1:
-    //Serial.println("codeFall");
+    //Serial.println("stage b");
     // Declare a list of Trails that we will track
     static Trail trailList[NUM_TRAILS];
     
@@ -37,7 +41,9 @@ void digitalRainPalette(CRGBPalette256 palette) {
     random16_add_entropy(random(256));
   
     // Dim every cell by 5% (10/256) each time
+    //Serial.println("stage c");
     fadeToBlackBy(leds, NUM_LEDS, 10);
+    //Serial.println("stage d");
        
     //Go through all the trails
     for (uint8_t i = 0; i < NUM_TRAILS; i++) {
@@ -52,13 +58,14 @@ void digitalRainPalette(CRGBPalette256 palette) {
         }
         else {
           //Assign the color to the head of the trail
+          //Serial.println("stage e");
           leds[XY(trailList[i].x,trailList[i].y)] = ColorFromPalette(palette, trailList[i].palIndex, g_brightness, NOBLEND);
           //Set the tail of the trail 
           leds[XY(trailList[i].x, trailList[i].y + 1)] = ColorFromPalette(palette, (trailList[i].palIndex+8), g_brightness, NOBLEND);
           leds[XY(trailList[i].x, trailList[i].y + 2)] = ColorFromPalette(palette, (trailList[i].palIndex+16), g_brightness, NOBLEND);
           leds[XY(trailList[i].x, trailList[i].y + 3)] = ColorFromPalette(palette, 200, g_brightness, NOBLEND);
           // The remaining part of the tail will fade as part of the general dimming
-          
+          //Serial.println("stage f");
           //Advance trail down one
           trailList[i].y --;
           // Deplete the life span
@@ -79,10 +86,10 @@ void digitalRainPalette(CRGBPalette256 palette) {
       else {
         //Create a new Trail
         //Pick a random column
-        trailList[i].x = random8(NUM_LEDS_COLUMN);
+        trailList[i].x = random8(NUM_COLS);
            
         //Built in random pause by placing starting height position beyond top led)
-        trailList[i].y = random8(NUM_LEDS_ROW * 1.5);
+        trailList[i].y = random8(NUM_ROWS);
         
         trailList[i].throttle = random8(3); // Higher is slower; Lower is faster
       
@@ -92,7 +99,7 @@ void digitalRainPalette(CRGBPalette256 palette) {
         trailList[i].lifeSpan = trailList[i].y;
       
         //  Once in a while shorten the lifespan so that the trail stops short
-          if (!(random8(2)%2)) {trailList[i].lifeSpan += ((NUM_LEDS_COLUMN * random8(100) / 100)- NUM_LEDS_COLUMN);}
+          if (!(random8(2)%2)) {trailList[i].lifeSpan += ((NUM_COLS * random8(100) / 100)- NUM_COLS);}
       }
     }
     break;
@@ -100,7 +107,7 @@ void digitalRainPalette(CRGBPalette256 palette) {
 }
 
 // Add one layer of waves into the led array
-void pacifica_one_layer( CRGBPalette16& p, uint16_t cistart, uint16_t wavescale, uint8_t bri, uint16_t ioff)
+void pacifica_one_layer( CRGBPalette256& p, uint16_t cistart, uint16_t wavescale, uint8_t bri, uint16_t ioff)
 {
   uint16_t ci = cistart;
   uint16_t waveangle = ioff;
@@ -146,8 +153,21 @@ void pacifica_deepen_colors()
   }
 }
 
+// Give the impression that light is lost as it gets deeper
+void pacifica_depth() {
+  uint16_t num;
+  uint8_t dim;
+   for( uint16_t i = 0; i < NUM_LEDS; i++) {
+    dim = 255 - i;
+    fadeToBlackBy(&(leds[i]), 1, dim);
+   }  
+}
+
+
 void pacifica_loop()
 {
+  setupPalettes();
+
   // Increment the four "color index start" counters, one for each wave layer.
   // Each is incremented at a different speed, and the speeds vary over time.
   static uint16_t sCIStart1, sCIStart2, sCIStart3, sCIStart4;
@@ -175,10 +195,13 @@ void pacifica_loop()
   pacifica_one_layer( pacifica_palette_3, sCIStart4, 5 * 256, beatsin8( 8, 10,28), beat16(601));
 
   // Add brighter 'whitecaps' where the waves lines up more
-  pacifica_add_whitecaps();
+  //pacifica_add_whitecaps();
 
   // Deepen the blues and greens a bit
-  pacifica_deepen_colors();
+  //pacifica_deepen_colors();
+
+  // Add depth the ocean
+  //pacifica_depth();
 }
 
 
@@ -205,10 +228,10 @@ void murmurationPalette(CRGBPalette256 palette) {
 
   static uint8_t palletIndex;
   
-  int x1 = beatsin8 (18, 0, (NUM_LEDS_COLUMN-1));
-  int x2 = beatsin8 (23, 0, (NUM_LEDS_COLUMN-1)); 
-  int y1 = beatsin8 (20, 0, (NUM_LEDS_COLUMN-1)); 
-  int y2 = beatsin8 (26, 0, (NUM_LEDS_COLUMN-1)); 
+  int x1 = beatsin8 (18, 0, (NUM_COLS-1));
+  int x2 = beatsin8 (23, 0, (NUM_COLS-1)); 
+  int y1 = beatsin8 (20, 0, (NUM_COLS-1)); 
+  int y2 = beatsin8 (26, 0, (NUM_COLS-1)); 
   CRGB color = ColorFromPalette(palette, palletIndex++, g_brightness, LINEARBLEND );
   mydrawLine(x1, y1,  x2, y2, color);
   blur1d (leds, NUM_LEDS, 32 );
@@ -229,8 +252,8 @@ void Fire2012WithPalette(CRGBPalette256 gPal)
 {
 // Array of temperature readings at each simulation cell
   const uint8_t COOLING = 80;
-  const uint8_t SPARKING = 120;
-  const uint8_t  NUM_SECTION = NUM_LEDS_COLUMN;
+  const uint8_t SPARKING = 120; 
+  const uint8_t  NUM_SECTION = NUM_ROWS;
   static byte heat[NUM_SECTION];
   
   const boolean gReverseDirection = true;
@@ -238,26 +261,26 @@ void Fire2012WithPalette(CRGBPalette256 gPal)
     byte heat[NUM_SECTION];
   } ;
 
-  static flame flames[NUM_LEDS_COLUMN];
-  Serial.println("step b");
-  for( int f = 0; f < NUM_LEDS_COLUMN; f++) {
+  static flame flames[NUM_COLS];
+
+  for( int f = 0; f < NUM_COLS; f++) {
 
     // Step 1.  Cool down every cell a little
     for( int i = 0; i < NUM_SECTION; i++) {
       flames[f].heat[i] = qsub8( flames[f].heat[i],  random8(0, ((COOLING * 10) / NUM_SECTION) + 2));
     }
-    Serial.println("step c");
+
     // Step 2.  Heat from each cell drifts 'up' and diffuses a little
     for( int k= NUM_SECTION - 1; k >= 2; k--) {
       flames[f].heat[k] = (flames[f].heat[k - 1] + flames[f].heat[k - 2] + flames[f].heat[k - 2] ) / 3;
     }
-    Serial.println("step d");
+
     // Step 3.  Randomly ignite new 'sparks' of heat near the bottom
     if( random8() < SPARKING ) {
       int y = random8(7);
       flames[f].heat[y] = qadd8( flames[f].heat[y], random8(160,255) );
     }
-    Serial.println("step e");
+
     // Step 4.  Map from heat cells to LED colors
     for( int j = 0; j < NUM_SECTION; j++) {
       // Scale the heat value from 0-255 down to 0-240
@@ -290,13 +313,68 @@ void solid(CRGBPalette256 palette){
   }
 }
 
+void bubbles(){
+  static int startPos = 0;
+  if (startPos <= NUM_LEDS){
+    int endPos = constrain(startPos+10,0,NUM_LEDS); 
+    for (int i = 0; i<NUM_LEDS; i++) leds[i]=0x00000000; 
+    for (int i =startPos; i < endPos; i++) {
+      int rnd = random8(2);
+      if (rnd) {
+        leds[i] = 0x0044CCCC;
+      }
+    }
+    startPos++;
+  }else{ 
+    static int timer;
+    timer++;
+    if (timer>50){
+      timer = 0;
+      startPos = 0; 
+    }
+  }
+}
+
 void displayPink() {
   solid(palettes[paletteIndex].palette());
 }
 
 void fire2012() {
-  Serial.println("step a");
   Fire2012WithPalette(palettes[paletteIndex].palette());
+}
+
+void VUPatern0() {
+  VU_FFT(0);
+}
+
+void VUPatern3() {
+  VU_FFT(3);
+}
+
+void VUPatern1() {
+  VU_FFT(1);
+}
+
+void warmWhite() {
+  static uint8_t brightness = 0;
+  static long unsigned timeCheck;
+  long unsigned timeDiff;
+  timeDiff = millis() - timeCheck;
+  abs(timeDiff);
+  // Reset brightness to zero if more than a second has elapsed since last called
+  if (timeDiff > 1000) brightness = 0;
+  timeCheck = millis();
+  
+  if (brightness==g_brightness) {
+    fill_solid_CRGBW(leds, NUM_LEDS, CRGBW(0, 0, 0, brightness));
+  }
+  else {
+    if (brightness < g_brightness){ 
+      fill_solid_CRGBW(leds, NUM_LEDS, CRGBW(0, 0, 0, brightness++));
+    } else{
+      fill_solid_CRGBW(leds, NUM_LEDS, CRGBW(0, 0, 0, brightness--));
+    }
+  }
 }
 
 //Lets sort out a play list
@@ -311,11 +389,16 @@ typedef PatternAndName PatternAndNameList[];
 
 //Now lets populate it
 PatternAndNameList patterns = {
+ {bubbles,                        "Bubbles"},   
+ {VUPatern3,                      "VU Middle Bar"},
+ {VUPatern1,                      "VU Base"},
+ {VUPatern0,                      "VU Rainbow"},
+ {displayNoise,                   "lava lamp"},
+ {warmWhite,                      "Warm white"},  
  {pacifica_loop,                  "Pacific waves"}, 
  {fire2012,                       "Fire"},
  {digitalRain,                    "Matrix Digital Rain"} ,
  {murmuration,                    "Murmuration"},
- {displayNoise,                   "lava lamp"},
  {displayPink,                    "Pink" }
 
 };

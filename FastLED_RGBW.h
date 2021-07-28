@@ -1,4 +1,4 @@
-/* FastLED_RGBW
+ /* FastLED_RGBW
  * 
  * Hack to enable SK6812 RGBW strips to work with FastLED.
  *
@@ -368,8 +368,6 @@ struct CRGBW  {
     }
 
 
-
-
 void fill_solid( struct CRGBW * leds, int numToFill,
                  const struct CRGB& color)
 {
@@ -459,6 +457,14 @@ void blur2d( CRGBW* leds, uint8_t width, uint8_t height, fract8 blur_amount)
 {
     blurRows(leds, width, height, blur_amount);
     blurColumns(leds, width, height, blur_amount);
+}
+
+void fill_solid_CRGBW( CRGBW* leds, int numToFill,
+                 const struct CRGBW& CRGBWColor)
+{
+  for( int i = 0; i < numToFill; ++i) {
+    leds[i] = CRGBWColor;
+  }
 }
 
 

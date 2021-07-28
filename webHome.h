@@ -53,7 +53,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 </head>
 <body>
   <div class="topnav">
-    <h1>Wall of Lights Controller</h1>
+    <h1>Pimp my Lamp</h1>
   </div>
   <div class="content">
     <div class="card">
@@ -185,13 +185,13 @@ void notifyClients(String message) {
 }
 
 void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
-  Serial.println("handle web socket");
+  //Serial.println("handle web socket");
   AwsFrameInfo *info = (AwsFrameInfo*)arg;
   if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
     data[len] = 0; 
     String message = (char*)data;
-    Serial.print("Json Message: ");
-    Serial.println(message);
+    //Serial.print("Json Message: ");
+    //Serial.println(message);
     DeserializationError error = deserializeJson(doc, message);
     
     if (doc["key"] == "pattern"){
@@ -202,8 +202,8 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
     }
     if (doc["key"] == "palette"){
       paletteIndex = (int)doc["value"];
-      Serial.print("paletteIndex: ");
-      Serial.println(paletteIndex);
+      //Serial.print("paletteIndex: ");
+      //Serial.println(paletteIndex);
       message = "{\"key\":\"palette\", \"value\":" + (String)patternIndex + "}";
     }
     if (doc["key"] == "brightness"){
@@ -221,10 +221,10 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
     if (doc["key"] == "resetHue"){
       g_hueTempo = 0;
       g_hueShift = 0;
-      Serial.print("hueTempo: ");
-      Serial.println(g_hueTempo);
-      Serial.print("hueShift: ");
-      Serial.println(g_hueShift);
+      //Serial.print("hueTempo: ");
+      //Serial.println(g_hueTempo);
+      //Serial.print("hueShift: ");
+      //Serial.println(g_hueShift);
       message = "{\"key\":\"hueTempo\", \"value\":" + (String)g_hueTempo + "}";
       notifyClients(message);
       message = "{\"key\":\"hueShift\", \"value\":" + (String)g_hueShift + "}";
@@ -237,10 +237,10 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
              void *arg, uint8_t *data, size_t len) {
   switch (type) {
     case WS_EVT_CONNECT:
-      Serial.printf("WebSocket client #%u connected from %s\n", client->id(), client->remoteIP().toString().c_str());
+      //Serial.printf("WebSocket client #%u connected from %s\n", client->id(), client->remoteIP().toString().c_str());
       break;
     case WS_EVT_DISCONNECT:
-      Serial.printf("WebSocket client #%u disconnected\n", client->id());
+      //Serial.printf("WebSocket client #%u disconnected\n", client->id());
       break;
     case WS_EVT_DATA:
       handleWebSocketMessage(arg, data, len);
@@ -284,7 +284,7 @@ String processor(const String& var){
     return list;
   }
   if (var=="BRIGHTNESS") {
-    Serial.println(g_brightness);
+    //Serial.println(g_brightness);
     return (String)g_brightness;
   }  
   if (var=="BRIGHTNESS_TEXT") {
@@ -292,7 +292,7 @@ String processor(const String& var){
   }   
      
   if (var=="HUE_TEMPO") {
-    Serial.println(g_hueTempo);
+    //Serial.println(g_hueTempo);
     return (String)g_hueTempo;
   }  
   if (var=="HUE_SHIFT") {

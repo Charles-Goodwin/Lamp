@@ -3,6 +3,7 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <credentials.h>
+//#include <TelnetStream.h>
 
 
 
@@ -53,6 +54,7 @@ void setupOTA() {
     });
 
   ArduinoOTA.begin();
+  //TelnetStream.begin();
 
   Serial.println("OTA Initialized");
   Serial.print("IP address: ");
