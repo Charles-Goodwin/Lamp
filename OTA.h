@@ -1,14 +1,13 @@
+
+
 #include <WiFi.h>
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 #include <credentials.h>
-//#include <TelnetStream.h>
-
-
-
 
 void setupOTA() {
+
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
@@ -16,6 +15,7 @@ void setupOTA() {
     delay(5000);
     ESP.restart();
   }
+  //Assumes WiFI connection already made 
 
   // Port defaults to 3232
   // ArduinoOTA.setPort(3232);
@@ -54,7 +54,6 @@ void setupOTA() {
     });
 
   ArduinoOTA.begin();
-  //TelnetStream.begin();
 
   Serial.println("OTA Initialized");
   Serial.print("IP address: ");

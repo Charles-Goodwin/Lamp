@@ -1,10 +1,13 @@
 #include "define.h"
 #include "palette.h"
 #include "patNoise.h"
-#include "Commet.h"
 #include "xy.h"
 #include "FastLED_RGBW.h"
 #include "VU_FFT.h"
+#include "patSwirl.h"
+#include "patTwinkle.h"
+#include "patComet.h"
+#include "patFireworks.h"
 
 
 // My first stab at emulating the iconic raining code from the movie The Matrix
@@ -167,6 +170,7 @@ void pacifica_depth() {
 void pacifica_loop()
 {
   setupPalettes();
+    
 
   // Increment the four "color index start" counters, one for each wave layer.
   // Each is incremented at a different speed, and the speeds vary over time.
@@ -263,7 +267,9 @@ void Fire2012WithPalette(CRGBPalette256 gPal)
 
   static flame flames[NUM_COLS];
 
+  FastLED.delay(20);
   for( int f = 0; f < NUM_COLS; f++) {
+
 
     // Step 1.  Cool down every cell a little
     for( int i = 0; i < NUM_SECTION; i++) {
@@ -314,6 +320,7 @@ void solid(CRGBPalette256 palette){
 }
 
 void bubbles(){
+  FastLED.delay(10);
   static int startPos = 0;
   if (startPos <= NUM_LEDS){
     int endPos = constrain(startPos+10,0,NUM_LEDS); 
@@ -341,6 +348,10 @@ void displayPink() {
 
 void fire2012() {
   Fire2012WithPalette(palettes[paletteIndex].palette());
+}
+
+void spiral() {
+  spiralWithPalette(palettes[paletteIndex].palette());
 }
 
 void VUPatern0() {
@@ -389,16 +400,20 @@ typedef PatternAndName PatternAndNameList[];
 
 //Now lets populate it
 PatternAndNameList patterns = {
+ {drawFireworks,                  "Fireworks"},  
+ {DrawComet,                      "Comet"},   
+ {DrawTwinkle,                    "Twinkle"},  
+ {spiral,                         "Spiral"},   
  {bubbles,                        "Bubbles"},   
  {VUPatern3,                      "VU Middle Bar"},
- {VUPatern1,                      "VU Base"},
+ {VUPatern1,                      "VU Cascading Base"},
  {VUPatern0,                      "VU Rainbow"},
- {displayNoise,                   "lava lamp"},
- {warmWhite,                      "Warm white"},  
- {pacifica_loop,                  "Pacific waves"}, 
+ {displayNoise,                   "Lava Lamp"},
+ {warmWhite,                      "Warm White"},  
+ {pacifica_loop,                  "Pacific Waves"}, 
  {fire2012,                       "Fire"},
+ {displayPink,                    "Solid Colour"},
  {digitalRain,                    "Matrix Digital Rain"} ,
- {murmuration,                    "Murmuration"},
- {displayPink,                    "Pink" }
+ {murmuration,                    "Murmuration"}
 
 };

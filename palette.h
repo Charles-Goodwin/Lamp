@@ -80,9 +80,9 @@ CRGBPalette256 Rainbow_pal() {
   uint8_t pal[1024];
   CRGB col; 
 
-  for (int i = 0; i<256; i+=4){
-    col = CHSV(i + g_hueShift, 255, 255);
-    pal[i] = i;
+  for (int i = 0; i<1024; i+=4){
+    col = CHSV(i/4 + g_hueShift, 255, 255);
+    pal[i] = i/4;
     pal[i+1] = col.r;
     pal[i+2] = col.g;
     pal[i+3] = col.b; 
@@ -95,24 +95,24 @@ CRGBPalette256 Rainbow_pal() {
 CRGBPalette256 Thermal_pal() {
   CRGBPalette256 palette;
   CRGB col[] = {
-    CHSV(0 + g_hueShift,   0,     0),
-    CHSV(0 + g_hueShift,   255,   51),
-    CHSV(0 + g_hueShift,   255,   255), 
-    CHSV(9 + g_hueShift,   255,   255),
-    CHSV(43 + g_hueShift,  255,   255), 
-    CHSV(43 + g_hueShift,  204,   255), 
-    CHSV(43 + g_hueShift,  0,     255), 
+    CHSV(0 + g_hueShift,   0,     0),   //black
+    CHSV(0 + g_hueShift,   255,   51),  // dark red
+    CHSV(0 + g_hueShift,   255,   255), // bright red
+    CHSV(9 + g_hueShift,   255,   255), // bright orange 
+    CHSV(43 + g_hueShift,  255,   255), // yellow 
+    CHSV(43 + g_hueShift,  204,   255), // light yellow
+    CHSV(43 + g_hueShift,  0,     255), // white
     CHSV(43 + g_hueShift,  0,     0)
   };
 
-  uint8_t pal[] = {0,   col[0].r, col[0].g, col[0].b ,
-                  16,   col[1].r, col[1].g, col[1].b ,
-                  80,   col[2].r, col[2].g, col[2].b ,
-                  96,   col[3].r, col[3].g, col[3].b ,
-                  160,  col[4].r, col[4].g, col[4].b ,
-                  176,  col[5].r, col[5].g, col[5].b ,
-                  240,  col[6].r, col[6].g, col[6].b ,
-                  255,  col[7].r, col[7].g, col[8].b ,
+  uint8_t pal[] = {0,   col[0].r, col[0].g, col[0].b ,  //black
+                  16,   col[1].r, col[1].g, col[1].b ,  // dark red
+                  80,   col[2].r, col[2].g, col[2].b ,  // bright red
+                  96,   col[3].r, col[3].g, col[3].b ,  // bright orange 
+                  160,  col[4].r, col[4].g, col[4].b ,  // yellow 
+                  176,  col[5].r, col[5].g, col[5].b ,  // light yellow
+                  240,  col[6].r, col[6].g, col[6].b ,  // white
+                  255,  col[7].r, col[7].g, col[8].b ,  // black
   };
   
   palette.loadDynamicGradientPalette(pal);
@@ -385,17 +385,21 @@ typedef struct {
   String name;
 } PaletteAndName;
 
-const PaletteAndName palettes[] = {
+const PaletteAndName  palettes[] = {
+  {Blank_pal,                   "Twinkle"},
+  {Rainbow_pal,                 "Rainbow"},
   {Blank_pal,                   "Bubbles"},
-  {Blank_pal,                   "VU Rainbow   Bars"},
-  {Blank_pal,                   "VU Middle Bars"},
+  {Blank_pal,                   "VU Middle Bar"},
+  {Blank_pal,                   "VU Cascading Base"},
+  {Blank_pal,                   "VU Rainbow"},
   {LavaLampPurple_pal,          "Lava Lamp - Pink/Purple"},
   {Blank_pal,                   "Warm white"},
   {Blank_pal,                   "Pacifica"},
   {Thermal_pal,                 "Thermal spectrum"},
+  {Solid_pal,                   "Solid colour (Pink)"},
   {DigitalRain_pal,             "Digital Rain - Green"},
   {Blank_pal,                   "Sound Reactive"},
-  {Solid_pal,                   "Solid colour (Pink)"},
+  {Solid_pal,                   "Solid colour (Pink)"}
 };  
 
 

@@ -83,6 +83,9 @@ void mapNoiseToLEDsUsingPalette()
   static uint8_t ihue=0;
   
   for(int i = 0; i < kMatrixWidth; i++) {
+    //Serial.print("slow down");
+    //Serial.print("slow down more");
+    delay(5);
    
       for(int j = 0; j < kMatrixHeight; j++) {
         // We use the value at the (i,j) coordinate in the noise
@@ -104,8 +107,11 @@ void mapNoiseToLEDsUsingPalette()
         } else {
           bri = dim8_raw( bri * 2);
         }
-
+       //Serial.print("XY value ");
+       //Serial.println(XYwrap(i,j));
         CRGB color = ColorFromPalette( currentPalette, index, g_brightness);
+       //Serial.print("Colour ");
+       //Serial.println(color);
         leds[XYwrap(i,j)] = color;
       }
     
@@ -155,6 +161,7 @@ void fillnoise8() {
 }
 
 void displayNoise (){
+    FastLED.delay(20);
   // Serial.println("Just started Noise");
   if(x==0 && y==0 && z==0){
     // Initialize our coordinates to some random values
@@ -162,13 +169,13 @@ void displayNoise (){
     y = random16();
     z = random16();
   }
-  Serial.println("stage f");
+  //Serial.println("stage f");
   // Periodically choose a new palette, speed, and scale
   ChangePaletteAndSettingsPeriodically();
   
   // generate noise data
   fillnoise8();
-  Serial.println("stage g");
+  //Serial.println("stage g");
   // convert the noise data to colors in the LED array
   // using the current palette
   mapNoiseToLEDsUsingPalette();

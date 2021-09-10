@@ -1,3 +1,6 @@
+#ifndef WEBHOME_H
+#define WEBHOME_H
+
 #include <stdlib.h>
 #include <string.h>
 #include <ArduinoJson.h>
@@ -9,7 +12,7 @@ StaticJsonDocument<250> doc;
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
-  <title>ESP Web Server</title>
+  <title>Pimp my Lamp</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,">
   <style>
@@ -45,6 +48,10 @@ const char index_html[] PROGMEM = R"rawliteral(
     padding-bottom:20px;
   }
 
+  #palette, #Palette {
+  visibility: hidden;
+}
+
   </style>
   
 <title>ESP Web Server</title>
@@ -63,18 +70,18 @@ const char index_html[] PROGMEM = R"rawliteral(
       </select></p>
     </div><br>
     <div class="card">
-      <h2>Current Palette</h2> 
-      <p><select style="width: 280px" id="palette" name="palette">
-      %PALETTE_LIST%
-      </select></p>
-    </div><br>
-    <div class="card">
       <h2>Brightness (<span id="brightness_pc">%BRIGHTNESS_TEXT%</span>)</h2> 
       <p><input type="range" style="width: 280px" min="0" max="255" id="brightness" name="brightness" value="%BRIGHTNESS%"></p>
     </div><br>
     <div class="card">
       <h2>Hue Tempo/Shift (<span id="tempo">%HUE_TEMPO%</span>/<span id="shift">%HUE_SHIFT%</span>)  <input type="button" id="reset" value="Reset""></h2> 
       <p><input type="range" style="width: 280px" min="0" max="10" id="hueTempo" name="hueTempo" value="%HUE_TEMPO%"></p>
+    </div><br>
+    <div class="card" id="Palette">
+      <h2>Current Palette</h2> 
+      <p><select style="width: 280px" id="palette" name="palette">
+      %PALETTE_LIST%
+      </select></p>
     </div>
   </div>
 <script>
@@ -299,3 +306,5 @@ String processor(const String& var){
     return (String)g_hueShift;
   }      
 }
+
+#endif

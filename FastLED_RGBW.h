@@ -9,6 +9,7 @@
 
 #ifndef FastLED_RGBW_h
 #define FastLED_RGBW_h
+
 #include <FastLED.h>
 
 /// scale four one byte values by a fith one, which is treated as
@@ -23,6 +24,32 @@ LIB8STATIC void nscale8x4( uint8_t& r, uint8_t& g, uint8_t& b, uint8_t& w, fract
     g = (((uint16_t)g) * scale_fixed) >> 8;
     b = (((uint16_t)b) * scale_fixed) >> 8;
     w = (((uint16_t)w) * scale_fixed) >> 8;
+}
+
+/// scale four one byte values by a fith one, which is treated as
+/// the numerator of a fraction whose demominator is 256
+/// In other words, it computes r,g,b,w * (scale / 256), ensuring
+/// that non-zero values passed in remain non zero, no matter how low the scale
+/// argument.
+///
+///         THIS FUNCTION ALWAYS MODIFIES ITS ARGUMENTS IN PLACE
+LIB8STATIC void nscale8x4_video( uint8_t& r, uint8_t& g, uint8_t& b, uint8_t& w, fract8 scale)
+{
+#if SCALE8_C == 1
+    uint8_t nonzeroscale = (scale != 0) ? 1 : 0;
+    r = (r == 0) ? 0 : (((int)r * (int)(scale) ) >> 8) + nonzeroscale;
+    g = (g == 0) ? 0 : (((int)g * (int)(scale) ) >> 8) + nonzeroscale;
+    b = (b == 0) ? 0 : (((int)b * (int)(scale) ) >> 8) + nonzeroscale;
+    w = (w == 0) ? 0 : (((int)w * (int)(scale) ) >> 8) + nonzeroscale;
+#elif SCALE8_AVRASM == 1
+    nscale8_video_LEAVING_R1_DIRTY( r, scale);
+    nscale8_video_LEAVING_R1_DIRTY( g, scale);
+    nscale8_video_LEAVING_R1_DIRTY( b, scale);
+    nscale8_video_LEAVING_R1_DIRTY( w, scale);
+    cleanup_R1();
+#else
+#error "No implementation for nscale8x3 available."
+#endif
 }
 
 struct CRGBW  {
@@ -50,11 +77,14 @@ struct CRGBW  {
 
 	CRGBW(){}
   /// Allow a  CRBGW variable to be assigned an CRGB value
-  inline void operator = (const CRGB c) __attribute__((always_inline)){ 
-    this->r = c.r;
-    this->g = c.g;
-    this->b = c.b;
-    this->white = 0;
+  inline CRGBW& operator= (const CRGB& rhs) __attribute__((always_inline)){ 
+    //Serial.println("Allow a  CRBGW variable to be assigned an CRGB value");
+    r = rhs.r;
+    g = rhs.g;
+    b = rhs.b;
+    w = 0;
+    return *this;
+    
   } 
 
   
@@ -66,7 +96,8 @@ struct CRGBW  {
         this->r = sub.r;
         this->g = sub.g;
         this->b = sub.b;
-        this->white = 0;
+        this->w = 0;
+       // Serial.println("allow assignment from HSV color");
     }
 
   /// Array access operator to index into the crgbw object
@@ -88,6 +119,7 @@ struct CRGBW  {
   inline CRGBW( uint8_t ir, uint8_t ig, uint8_t ib, uint8_t iw)  __attribute__((always_inline))
         : r(ir), g(ig), b(ib), w(iw)
     {
+      //Serial.println("This is for when you declare a variable as CRGBW and want to initialise it with 4 individual bytes for r,g,b and w");
     }
 
   /// allow construction from 32-bit 0xRRGGBBWW color code
@@ -95,6 +127,7 @@ struct CRGBW  {
   inline CRGBW( uint32_t colorcode)  __attribute__((always_inline))
     : r((colorcode >> 24) & 0xFF), g((colorcode >> 16) & 0xFF), b((colorcode >> 8) & 0xFF), w((colorcode >> 0) & 0xFF)
     {
+      //Serial.println("This is for when you declare a variable as CRGBW and want to initialise it with a 32bit value ie 0xRRGGBBWW");
     }
 
   /// allow copy construction
@@ -109,6 +142,7 @@ struct CRGBW  {
         this->g = sub.g;
         this->b = sub.b;
         this->w = 0;
+        //Serial.println("allow construction from HSV color");
     }
 
   /// allow assignment from one RGBW struct to another
@@ -127,6 +161,7 @@ struct CRGBW  {
   /// add one RGBW to another, saturating at 0xFF for each channel
     inline CRGBW& operator+= (const CRGBW& rhs )
     {
+        //Serial.println("add RGB to RGBW, saturating at 0xFF for each channel");
         r = qadd8( r, rhs.r);
         g = qadd8( g, rhs.g);
         b = qadd8( b, rhs.b);
@@ -149,11 +184,13 @@ struct CRGBW  {
     /// constant (e.g. CRGB::Red) and an 8-bit one (CRGB::Blue)
     inline CRGBW& addToRGB (uint8_t d )
     {
+        Serial.println("add a contstant to each channel, saturating at 0xFF");
         r = qadd8( r, d);
         g = qadd8( g, d);
         b = qadd8( b, d);
         w = qadd8( w, d);
         return *this;
+        
     }
 
     /// "or" operator brings each channel up to the higher of the two values
@@ -190,14 +227,49 @@ struct CRGBW  {
         return avg;
     }
      
-  /// scale down a RGB to N 256ths of it's current brightness, using
+  /// scale down a RGBW to N 256ths of it's current brightness, using
   /// 'plain math' dimming rules, which means that if the low light levels
   /// may dim all the way to 100% black.
   inline CRGBW& nscale8 (uint8_t scaledown )
   {
+      //Serial.println("scale down a RGBW to N 256ths of it's current brightness");
       nscale8x4( r, g, b, w, scaledown);
       return *this;
   }
+  
+  /// fadeToBlackBy is a synonym for nscale8( ..., 255-fadefactor)
+  inline CRGBW& fadeToBlackBy (uint8_t fadefactor )
+  {
+      nscale8x4( r, g, b, w, 255 - fadefactor);
+      return *this;
+  }
+
+  /// scale down a RGB to N 256ths of it's current brightness, using
+  /// 'video' dimming rules, which means that unless the scale factor is ZERO
+  /// each channel is guaranteed NOT to dim down to zero.  If it's already
+  /// nonzero, it'll stay nonzero, even if that means the hue shifts a little
+  /// at low brightness levels.
+  inline CRGBW& nscale8_video (uint8_t scaledown )
+  {
+      nscale8x4_video( r, g, b, w, scaledown);
+      return *this;
+  }
+
+  /// %= is a synonym for nscale8_video.  Think of it is scaling down
+  /// by "a percentage"
+  inline CRGBW& operator%= (uint8_t scaledown )
+  {
+      nscale8x4_video( r, g, b, w, scaledown);
+      return *this;
+  }
+
+  /// fadeLightBy is a synonym for nscale8_video( ..., 255-fadefactor)
+  inline CRGBW& fadeLightBy (uint8_t fadefactor )
+  {
+      nscale8x4_video( r, g, b, w, 255 - fadefactor);
+      return *this;
+  }
+  
   /// Predefined RGBW colors
     typedef enum {
         AliceBlue=0xF0F8FF00,
@@ -467,7 +539,45 @@ void fill_solid_CRGBW( CRGBW* leds, int numToFill,
   }
 }
 
-
+void testCRGBW(){
+  char buffer[100];
+  CRGB col(101,102,103); 
+  CRGBW colw (201,202,203,204);
+  
+  sprintf(buffer, "rgb colours for col are r:%u, g:%u, b:%u", col.r, col.g, col.b);
+  Serial.println(buffer); 
+  sprintf(buffer, "rgbw colours for colw are r:%u, g:%u, b:%u, w:%u", colw.r, colw.g, colw.b, colw.w);
+  Serial.println(buffer); 
+  col = CHSV(241, 100,100);
+  colw = CHSV(241, 100,100);
+  sprintf(buffer, "rgb colours for col are r:%u, g:%u, b:%u", col.r, col.g, col.b);
+  Serial.println(buffer); 
+  sprintf(buffer, "rgbw colours for colw are r:%u, g:%u, b:%u, w:%u", colw.r, colw.g, colw.b, colw.w);
+  Serial.println(buffer);
+  col = CRGB(100,101,102); 
+  colw = col;
+  sprintf(buffer, "rgb colours for col are r:%u, g:%u, b:%u", col.r, col.g, col.b);
+  Serial.println(buffer); 
+  sprintf(buffer, "rgbw colours for colw are r:%u, g:%u, b:%u, w:%u", colw.r, colw.g, colw.b, colw.w);
+  Serial.println(buffer);
+  sprintf(buffer, "rgbw colours for colw are 0:%u, 1:%u, 2:%u, 3:%u", colw[0], colw[1], colw[2], colw[3]);
+  Serial.println(buffer);
+  CRGBW colw1 (0xFFFEFDFC);
+  sprintf(buffer, "rgbw colours for colw are r:%u, g:%u, b:%u, w:%u", colw1.r, colw1.g, colw1.b, colw1.w);
+  Serial.println(buffer);
+  CRGBW colw2 (CHSV(241, 100,100));
+  sprintf(buffer, "rgbw colours for colw are r:%u, g:%u, b:%u, w:%u", colw2.r, colw2.g, colw2.b, colw2.w);
+  Serial.println(buffer);
+  colw1 =  CRGBW(50,51,52,53);
+  //This line will fail: colw = colw1 + colw2;
+  //For addition you must use the += operator i.e.
+  colw1 += colw1;
+  sprintf(buffer, "rgbw colours for colw are r:%u, g:%u, b:%u, w:%u", colw1.r, colw1.g, colw1.b, colw1.w);
+  Serial.println(buffer);
+  colw1 += col; // also allows you to add CRGB types
+  sprintf(buffer, "rgbw colours for colw are r:%u, g:%u, b:%u, w:%u", colw1.r, colw1.g, colw1.b, colw1.w);
+  Serial.println(buffer);
+}
 
 
 #endif

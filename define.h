@@ -11,19 +11,19 @@
 #define NUM_ROWS 30
 #define NUM_LEDS (NUM_COLS * NUM_ROWS)
 #define MAX_POWER_MILLIAMPS 60000
-
-#define MAX_PATTERNS 7
-#define MAX_PALETTES 7
-
 //CRGB leds[NUM_LEDS];
 
 // FastLED with RGBW
 CRGBW leds[NUM_LEDS];
 CRGB *ledsRGB = (CRGB *) &leds[0];
 
+
+#define MAX_PATTERNS 9
+#define MAX_PALETTES 9
+
 uint8_t hues[NUM_LEDS];
-static uint8_t patternIndex = 2;
-static uint8_t paletteIndex = 2;
+static uint8_t patternIndex = 0;
+static uint8_t paletteIndex = 0;
 uint8_t g_brightness = BRIGHTNESS;
 uint8_t g_hueTempo = 0;
 uint8_t g_hueShift = 0;
@@ -36,5 +36,6 @@ uint8_t g_hueShift = 0;
 #define EEPROM_DISPLAY_TIME 4
 
 bool autoChangePatterns = false;
+
 
 #endif

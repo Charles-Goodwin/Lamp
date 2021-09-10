@@ -1,3 +1,6 @@
+#ifndef WEB_H
+#define WEB_H
+
 #include <Arduino.h>
 #include <WiFi.h>
 #include <AsyncTCP.h>
@@ -6,22 +9,11 @@
 
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
+
 #include "webHome.h"
 
-void connectToWIFI() {
-  // Connect to Wi-Fi
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi..");
-  }
-
-  // Print ESP Local IP Address
-  Serial.println(WiFi.localIP());
-}
-
 void handleServerRequests() {
-   initWebSocket();
+  initWebSocket();
 
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -30,4 +22,8 @@ void handleServerRequests() {
 
   // Start server
   server.begin();
+  // Add service to MDNS-SD
+  //MDNS.addService("http", "tcp", 80);
 }
+
+#endif
